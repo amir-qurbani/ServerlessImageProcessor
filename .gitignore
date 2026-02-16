@@ -1,0 +1,11 @@
+# Azure Functions local settings (viktigast!)
+local.settings.json
+
+# .NET filer vi inte vill ha
+bin/
+obj/
+*.user
+.vs/
+
+# Om du använder VS Code
+.vscode/
