@@ -1,11 +1,14 @@
-# Azure Functions local settings (viktigast!)
-local.settings.json
-
-# .NET filer vi inte vill ha
+# .NET temporära filer
 bin/
 obj/
-*.user
-.vs/
 
-# Om du använder VS Code
-.vscode/
+# Visual Studio filer
+.vs/
+*.user
+
+# Inställningar med hemligheter (VÄLDIGT VIKTIGT!)
+appsettings.json
+local.settings.json
+
+# Externa bibliotek - Använd ** för att hitta mappen överallt
+**/wwwroot/lib/

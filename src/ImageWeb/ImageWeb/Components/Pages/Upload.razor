@@ -1,0 +1,72 @@
+@page "/upload"
+@using Azure.Storage.Blobs
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@rendermode InteractiveServer
+
+<h3>Upload Image to Azure</h3>
+
+<div class="mb-3">
+    <label for="formFile" class="form-label">Select an image to upload</label>
+    <InputFile OnChange="OnFileChange" class="form-control" id="formFile" />
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="UploadFile">
+        Upload to Azure
+    </button>
+</div>
+
+@if (selectedFile != null)
+{
+    <div class="alert alert-info">
+        Selected file: @selectedFile.Name
+    </div>
+}
+
+@code {
+    private IBrowserFile? selectedFile;
+
+    private void OnFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        Console.WriteLine("File selected in C#");
+        this.StateHasChanged();
+    }
+
+    private async Task UploadFile()
+    {
+        Console.WriteLine("Button clicked!");
+
+        if (selectedFile == null)
+        {
+            Console.WriteLine("No file selected.");
+            return;
+        }
+
+        try
+        {
+            string connectionString = Configuration.GetConnectionString("AzureStorage");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                Console.WriteLine("Error: Connection string 'AzureStorage' not found in appsettings.json");
+                return;
+            }
+
+            var blobServiceClient = new BlobServiceClient(connectionString);
+            var containerClient = blobServiceClient.GetBlobContainerClient("upload");
+            var blobClient = containerClient.GetBlobClient(selectedFile.Name);
+
+            using var stream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+            await blobClient.UploadAsync(stream, true);
+
+            Console.WriteLine("Upload successful!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+}
