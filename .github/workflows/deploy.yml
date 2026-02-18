@@ -14,4 +14,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/src/ImageWeb/ImageWeb" 
-          output_location: "wwwroot"
+          output_location: "bin/Release/net9.0/publish/wwwroot"
