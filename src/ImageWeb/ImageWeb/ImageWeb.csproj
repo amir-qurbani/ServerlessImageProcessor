@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
     <ProjectReference Include="..\ImageWeb.Client\ImageWeb.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
