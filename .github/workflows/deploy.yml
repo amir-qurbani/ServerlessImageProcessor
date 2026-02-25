@@ -1,17 +1,30 @@
-name: Deploy Blazor to Azure
+name: Build Blazor App
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  build_and_deploy_job:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - name: Build And Deploy
-        uses: Azure/static-web-apps-deploy@v1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/src/ImageWeb/ImageWeb" 
-          output_location: "wwwroot"
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore src/ImageWeb/ImageWeb/ImageWeb.csproj
+
+      - name: Build
+        run: dotnet build src/ImageWeb/ImageWeb/ImageWeb.csproj --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish src/ImageWeb/ImageWeb/ImageWeb.csproj -c Release -o publish
