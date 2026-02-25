@@ -14,5 +14,3 @@ local.settings.json
 
 # Externa bibliotek - Använd ** för att hitta mappen överallt
 **/wwwroot/lib/
-
-hemlig = "3d90cea172427cbd389d6ea0db75afd9cc9afe1e8b549b97e3a19f005372e53104-713e2ea4-6d5a-4eaf-89cd-7ea9a0f56ad30031117033beef03d"
